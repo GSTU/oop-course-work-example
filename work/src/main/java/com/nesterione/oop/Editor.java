@@ -1,7 +1,6 @@
 package com.nesterione.oop;
 
-import com.nesterione.oop.storage.Phone;
-import com.nesterione.oop.storage.StorageFactory;
+import com.nesterione.oop.storage.*;
 
 import java.util.*;
 
@@ -10,21 +9,21 @@ import java.util.*;
  */
 public class Editor {
 
-    public static void showMainMenu() {
-        System.out.println("Злавное меню:");
-        System.out.println(Codes.CHANGE_REPOSITORY+" - выбрать репозиторий:");
-        System.out.println(Codes.SHOW_ALL+" - показать все записи активного репозитория:");
-        System.out.println(Codes.DETAILS+" - показать подробно информацию о записи");
-        System.out.println(Codes.ADD+" - добавить новую запись:");
-        System.out.println(Codes.UPDATE+" - изменить запись:");
-        System.out.println(Codes.DELETE+" - удалить запись");
-        System.out.println(Codes.EXIT+" - Завершить работу");
+    private void createBinRepository() {
+        System.out.println("Введите имя (путь) нового бинарного хранилища");
+        String path = Reader.getString();
+        Storage<Phone> storage = BinaryStorage.createNewBinaryStorage(path);
+        if(storage!=null) {
+            StorageFactory.setInstance(storage);
+        } else  {
+            System.out.println("Произошла ошибка при создании репозитория");
+        }
     }
 
     private void execute(int whatDoing) {
         switch (whatDoing) {
             case Codes.SHOW_ALL:
-                printList(StorageFactory.getInstance().getAll());
+                StorageConsolePrinter.print(StorageFactory.getInstance().getAll());
                 break;
             case Codes.DELETE:
                 deleteOperation();
@@ -38,6 +37,26 @@ public class Editor {
             case Codes.UPDATE:
                 updateOperation();
                 break;
+            case Codes.CREATE_BIN_REPOSITORY:
+                createBinRepository();
+                break;
+            case Codes.CHANGE_TO_MEM:
+                StorageFactory.setInstance(new MemoryStorage());
+                break;
+            case Codes.CHANGE_TO_BIN:
+                changeToBin();
+                break;
+        }
+    }
+
+    private void changeToBin() {
+        System.out.println("Введите имя (путь) бинарного хранилища");
+        String path = Reader.getString();
+        Storage<Phone> storage = new BinaryStorage(path);
+        if(storage!=null) {
+            StorageFactory.setInstance(storage);
+        } else  {
+            System.out.println("Произошла ошибка при открытия репозитория");
         }
     }
 
@@ -60,7 +79,7 @@ public class Editor {
         phone.setName(name);
         phone.setPhoneNumber(phoneNumber);
         phone.setNotes(Arrays.asList(notes));
-        StorageFactory.getInstance().add(phone);
+        StorageFactory.getInstance().update(phone);
     }
 
     private static class Reader {
@@ -78,7 +97,6 @@ public class Editor {
     }
 
     private void addOperation() {
-
         System.out.println("Добавление новой записи:");
         System.out.println();
         System.out.println("Введите имя: ");
@@ -87,7 +105,6 @@ public class Editor {
         String phoneNumber = Reader.getString();
         System.out.println("Введите заметки(через пробел): ");
         String[] notes = Reader.getString().trim().split(" ");
-
         Phone phone = new Phone(name,phoneNumber, Arrays.asList(notes));
         StorageFactory.getInstance().add(phone);
     }
@@ -95,19 +112,8 @@ public class Editor {
     private void detailsOperation() {
         System.out.println("Введите UUID записи (можно скопировать;)");
         String uuid = Reader.getString();
-
         Phone detailsPhone = StorageFactory.getInstance().get(UUID.fromString(uuid));
-        showDetails(detailsPhone);
-    }
-
-    private void showDetails(Phone phone) {
-        System.out.println("Подробная информация о записи:");
-        System.out.println("UUID: "+phone.getId());
-        System.out.println("Имя: "+phone.getName());
-        System.out.println("Номер телефона: "+phone.getPhoneNumber());
-        System.out.println("Последнее изменение: "+phone.getLastChange());
-        System.out.println("Заметки: "+ phone.getNotes());
-        System.out.println();
+        StorageConsolePrinter.details(detailsPhone);
     }
 
     // Обратите внимание, что этот пример обучающий, и тут приходится для удаления вручную вводить UUID
@@ -119,22 +125,12 @@ public class Editor {
         StorageFactory.getInstance().delete(deletedRow);
     }
 
-    public void printList(List<Phone> phones) {
-        for(Phone phone : phones) {
-            printPhone(phone);
-        }
-    }
-
-    private void printPhone(Phone phone) {
-        System.out.format("%s    %s     %s\n", phone.getId(), phone.getName(), phone.getPhoneNumber());
-    }
-
     public void run() {
 
         int value = 0;
         do {
             try {
-                showMainMenu();
+                StorageConsolePrinter.menu();
                 value = Reader.getInt();
                 execute(value);
             } catch (InputMismatchException ex) {

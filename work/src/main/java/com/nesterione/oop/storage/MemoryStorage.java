@@ -70,4 +70,9 @@ public class MemoryStorage implements Storage {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Memory Storage";
+    }
 }

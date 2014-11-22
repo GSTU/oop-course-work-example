@@ -1,5 +1,6 @@
 package com.nesterione.oop.storage;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
  *
  * Created by igor on 22.11.2014.
  */
-public class Phone {
+public class Phone implements Serializable{
     private UUID id;
     private String name;
     private String phoneNumber;
