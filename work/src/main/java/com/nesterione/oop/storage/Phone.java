@@ -17,6 +17,8 @@ public class Phone implements Serializable{
     private Date lastChange;
     private List<String> notes;
 
+    public Phone() {    }
+
     public Phone(String name, String phoneNumber, List<String> notes) {
         id = UUID.randomUUID();
         setName(name);
@@ -55,7 +57,6 @@ public class Phone implements Serializable{
 
     public void setLastChange(Date lastChange) {
         this.lastChange = lastChange;
-        updateLastChange();
     }
 
     public String getPhoneNumber() {

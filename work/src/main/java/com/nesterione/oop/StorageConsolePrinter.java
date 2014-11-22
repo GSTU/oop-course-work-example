@@ -41,7 +41,8 @@ public class StorageConsolePrinter {
         System.out.println("-------------------");
         System.out.println(Codes.CHANGE_TO_MEM+" - выбрать репозиторий в памяти:");
         System.out.println(Codes.CHANGE_TO_BIN+" - выбрать бинарный репозиторий:");
-        //System.out.println(Codes.CREATE_TEXT_REPOSITORY+" - создать новый текстовый репозиторий:");
+        System.out.println(Codes.CHANGE_TO_TXT+" - выбрать текстовый репозиторий:");
+        System.out.println(Codes.CREATE_TXT_REPOSITORY+" - создать новый текстовый репозиторий:");
         System.out.println(Codes.CREATE_BIN_REPOSITORY+" - создать новый бинарный репозиторий:");
         System.out.println("-------------------");
         System.out.println(Codes.EXIT+" - Завершить работу");

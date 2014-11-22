@@ -61,7 +61,7 @@ public class BinaryStorage implements Storage<Phone> {
     }
 
     public BinaryStorage(String path) {
-        // TODO: Для упрощения здесь отсутсвуют проверки существования файза, в курсовой они должны быть
+        // TODO: Для упрощения здесь отсутсвуют проверки существования файла, в курсовой они должны быть
         this.path = path;
     }
 

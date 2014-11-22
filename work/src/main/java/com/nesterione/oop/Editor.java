@@ -9,17 +9,6 @@ import java.util.*;
  */
 public class Editor {
 
-    private void createBinRepository() {
-        System.out.println("Введите имя (путь) нового бинарного хранилища");
-        String path = Reader.getString();
-        Storage<Phone> storage = BinaryStorage.createNewBinaryStorage(path);
-        if(storage!=null) {
-            StorageFactory.setInstance(storage);
-        } else  {
-            System.out.println("Произошла ошибка при создании репозитория");
-        }
-    }
-
     private void execute(int whatDoing) {
         switch (whatDoing) {
             case Codes.SHOW_ALL:
@@ -40,12 +29,50 @@ public class Editor {
             case Codes.CREATE_BIN_REPOSITORY:
                 createBinRepository();
                 break;
+            case Codes.CREATE_TXT_REPOSITORY:
+                createTxtRepository();
+                break;
             case Codes.CHANGE_TO_MEM:
                 StorageFactory.setInstance(new MemoryStorage());
                 break;
             case Codes.CHANGE_TO_BIN:
                 changeToBin();
                 break;
+            case Codes.CHANGE_TO_TXT:
+                changeToTxt();
+        }
+    }
+
+    private void createTxtRepository() {
+        System.out.println("Введите имя (путь) нового текстового хранилища");
+        String path = Reader.getString();
+        Storage<Phone> storage = TextStorage.createNewTextStorage(path);
+        if(storage!=null) {
+            StorageFactory.setInstance(storage);
+        } else  {
+            System.out.println("Произошла ошибка при создании репозитория");
+        }
+    }
+
+    private void createBinRepository() {
+        System.out.println("Введите имя (путь) нового бинарного хранилища");
+        String path = Reader.getString();
+        Storage<Phone> storage = BinaryStorage.createNewBinaryStorage(path);
+        if(storage!=null) {
+            StorageFactory.setInstance(storage);
+        } else  {
+            System.out.println("Произошла ошибка при создании репозитория");
+        }
+    }
+
+    private void changeToTxt() {
+        System.out.println("Введите имя (путь) текстового хранилища");
+        String path = Reader.getString();
+        Storage<Phone> storage = new TextStorage(path);
+        if(storage!=null) {
+            StorageFactory.setInstance(storage);
+        } else  {
+            System.out.println("Произошла ошибка при открытия репозитория");
         }
     }
 

@@ -13,7 +13,8 @@ public interface Codes {
     int DELETE = 5;
     int CHANGE_TO_MEM = 6;
     int CHANGE_TO_BIN = 7;
-    int CREATE_TEXT_REPOSITORY = 8;
-    int CREATE_BIN_REPOSITORY = 9;
+    int CHANGE_TO_TXT = 8;
+    int CREATE_TXT_REPOSITORY = 9;
+    int CREATE_BIN_REPOSITORY = 10;
     int EXIT = 0;
 }
